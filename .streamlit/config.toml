@@ -1,0 +1,15 @@
+﻿[server]
+fileWatcherType = "none"
+runOnSave = false
+enableWebsocketCompression = false
+headless = true
+
+[browser]
+gatherUsageStats = false
+
+[client]
+showErrorDetails = "full"
+toolbarMode = "minimal"
+
+[runner]
+fastReruns = false

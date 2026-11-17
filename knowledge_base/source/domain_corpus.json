@@ -1,0 +1,140 @@
+[
+  {
+    "document_id": "WF-001",
+    "document_type": "business_rule",
+    "domain": "invoice_lifecycle",
+    "title": "Invoice status sequence",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Billing Operations Guide",
+    "content": "Invoices progress through Received, Confirmed, Authorized, Exported, Paid and Completed. A requested transition must satisfy the preceding status and the required role.",
+    "recommended_action": "Verify current status, requested transition and user role."
+  },
+  {
+    "document_id": "ACC-001",
+    "document_type": "business_rule",
+    "domain": "access_control",
+    "title": "Invoice authorization role",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Access Control Runbook",
+    "content": "Invoice authorization requires a Manager or Senior Manager role, an invoice in Confirmed status and an amount within the user's authorization limit.",
+    "recommended_action": "Check role, authorization limit and invoice status."
+  },
+  {
+    "document_id": "BATCH-001",
+    "document_type": "business_rule",
+    "domain": "batch_processing",
+    "title": "Batch export prerequisites",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Batch Runbook",
+    "content": "A batch can be exported only when every invoice in the batch is Authorized and the batch is not frozen.",
+    "recommended_action": "List invoice statuses and verify the batch freeze flag."
+  },
+  {
+    "document_id": "D21-001",
+    "document_type": "business_rule",
+    "domain": "d2021",
+    "title": "Mandatory D2021 envelope",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic D2021 Guide",
+    "content": "A D2021 file starts with exactly one ZHV header and ends with exactly one ZPT trailer. Critical structural errors reject the complete file.",
+    "recommended_action": "Review the file sequence and resubmit the corrected complete file."
+  },
+  {
+    "document_id": "D21-002",
+    "document_type": "business_rule",
+    "domain": "d2021",
+    "title": "D2021 parent-child hierarchy",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic D2021 Guide",
+    "content": "A CCD charge belongs to a preceding BCD invoice. A BCD invoice belongs to a CLO site and at least one MPC meter-point record.",
+    "recommended_action": "Trace CLO, MPC, BCD and CCD order and locate the missing parent."
+  },
+  {
+    "document_id": "INC-001",
+    "document_type": "incident_runbook",
+    "domain": "incident_resolution",
+    "title": "Confirmed batch cannot be exported",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Incident Runbook",
+    "symptom": "A confirmed batch does not produce an export file.",
+    "possible_causes": [
+      "Invoices are Confirmed but not Authorized",
+      "Batch is frozen",
+      "Export mapping is incomplete",
+      "Output directory access failed"
+    ],
+    "resolution_steps": [
+      "List all invoice statuses",
+      "Confirm authorization role and limits",
+      "Check batch freeze state",
+      "Validate export mapping",
+      "Check output path access"
+    ],
+    "content": "A confirmed batch cannot be exported directly. All invoices must first be Authorized. A frozen batch, incomplete mapping or output access failure can also block export.",
+    "recommended_action": "Inspect statuses first, then freeze state, mapping and file-system access."
+  },
+  {
+    "document_id": "INC-002",
+    "document_type": "incident_runbook",
+    "domain": "incident_resolution",
+    "title": "D2021 file remains unprocessed",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Incident Runbook",
+    "symptom": "A D2021 file remains in the input location and no invoices are created.",
+    "possible_causes": [
+      "Invalid filename",
+      "Scheduler or service stopped",
+      "Input directory permission issue",
+      "Invalid ZHV or ZPT structure"
+    ],
+    "resolution_steps": [
+      "Validate filename",
+      "Check scheduler history",
+      "Check service status",
+      "Check directory access",
+      "Review file error log"
+    ],
+    "content": "An unprocessed D2021 file may indicate a naming, scheduler, service, access or structural failure.",
+    "recommended_action": "Check filename, scheduler, service, directory access and structural error logs in that order."
+  },
+  {
+    "document_id": "REP-001",
+    "document_type": "report_catalogue",
+    "domain": "reports",
+    "title": "Capacity discrepancy report",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic Reporting Catalogue",
+    "content": "The capacity discrepancy report compares billed capacity with approved reference capacity and displays the financial difference.",
+    "recommended_action": "Use the report to prioritize high-value capacity differences."
+  },
+  {
+    "document_id": "GOV-001",
+    "document_type": "governance",
+    "domain": "governance",
+    "title": "Cited evidence requirement",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic AI Governance Standard",
+    "content": "Support answers must cite retrieved evidence. When evidence is insufficient the application must refuse unsupported conclusions and request missing details.",
+    "recommended_action": "Return a grounded answer or a safe evidence-insufficient response."
+  },
+  {
+    "document_id": "GOV-002",
+    "document_type": "governance",
+    "domain": "governance",
+    "title": "No autonomous production changes",
+    "version": "1.0",
+    "sensitivity": "SYNTHETIC",
+    "source": "Synthetic AI Governance Standard",
+    "content": "The copilot may recommend read-only investigation steps but must not perform production updates or present unapproved data patches as executable actions.",
+    "recommended_action": "Require human approval and existing change controls."
+  }
+]
