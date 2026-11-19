@@ -8,12 +8,8 @@ WORKDIR /app
 
 COPY requirements.txt .
 
-RUN python -m pip install \
-    --no-cache-dir \
-    --upgrade pip \
-    && python -m pip install \
-    --no-cache-dir \
-    -r requirements.txt
+RUN python -m pip install --no-cache-dir --upgrade pip \
+    && python -m pip install --no-cache-dir -r requirements.txt
 
 COPY app ./app
 COPY knowledge_base ./knowledge_base
@@ -24,20 +20,6 @@ RUN mkdir -p /app/data
 
 EXPOSE 8610
 
-HEALTHCHECK \
-    --interval=30s \
-    --timeout=5s \
-    --start-period=20s \
-    --retries=3 \
-    CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8610/health', timeout=4)"
+HEALTHCHECK --interval=30s --timeout=5s --start-period=20s --retries=3 CMD python -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8610/health', timeout=4)"
 
-CMD [
-    "python",
-    "-m",
-    "uvicorn",
-    "opsresolve_ai_app:application",
-    "--host",
-    "0.0.0.0",
-    "--port",
-    "8610"
-]
+CMD ["python", "-m", "uvicorn", "opsresolve_ai_app:application", "--host", "0.0.0.0", "--port", "8610"]
