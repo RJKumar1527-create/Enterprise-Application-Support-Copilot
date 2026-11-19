@@ -48,24 +48,19 @@ jobs:
         run: |
           set -e
 
-          if find . \
-            -path "./.git" -prune -o \
-            -type f \
-            \( \
-              -name "secrets.toml" -o \
-              -name ".env" -o \
-              -name "*.db" -o \
-              -name "*.db-wal" -o \
-              -name "*.db-shm" -o \
-              -name "*.pem" -o \
-              -name "*.key" \
-            \) \
-            -print | grep .; then
-            echo "Sensitive or runtime files were committed."
+          tracked_sensitive_files="$(
+            git ls-files |
+            grep -E '(^|/)(secrets\.toml|\.env)$|\.db$|\.db-wal$|\.db-shm$|\.pem$|\.key$' \
+            || true
+          )"
+
+          if [ -n "$tracked_sensitive_files" ]; then
+            echo "Sensitive or runtime files are tracked by Git:"
+            echo "$tracked_sensitive_files"
             exit 1
           fi
 
-          echo "Sensitive-file check passed."
+          echo "No sensitive or runtime files are tracked by Git."
 
   docker:
     name: Docker build
