@@ -1224,3 +1224,49 @@ application = Starlette(
     debug=True,
     routes=routes,
 )
+
+
+# ---------------------------------------------------------
+# Health and readiness endpoints
+# ---------------------------------------------------------
+from app.health.service import (
+    get_health_status,
+    get_readiness_status,
+)
+
+
+async def health_api(request):
+    return JSONResponse(
+        get_health_status()
+    )
+
+
+async def readiness_api(request):
+    readiness = get_readiness_status()
+
+    status_code = (
+        200
+        if readiness["status"] == "READY"
+        else 503
+    )
+
+    return JSONResponse(
+        readiness,
+        status_code=status_code,
+    )
+
+
+application.routes.extend(
+    [
+        Route(
+            "/health",
+            health_api,
+            methods=["GET"],
+        ),
+        Route(
+            "/ready",
+            readiness_api,
+            methods=["GET"],
+        ),
+    ]
+)
