@@ -1,18 +1,37 @@
+﻿# Python
 .venv/
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Secrets
 .streamlit/secrets.toml
 .env
-logs/
-data/*.db
-data/*.json
-data/*.npz
-.venv/
-__pycache__/
-*.pyc
-.streamlit/secrets.toml
-.env
+.env.*
+*.key
+*.pem
+
+# Runtime databases
 data/*.db
 data/*.db-shm
 data/*.db-wal
 data/cache/
+logs/
+
+# Generated retrieval artifacts
+data/*.npz
+data/chunks.json
+data/chunk_manifest.json
+data/vector_index_metadata.json
+data/support_vector_metadata.json
+data/hybrid_results.json
+data/reranked_results.json
+data/evaluation/*.json
+
+# IDE and OS
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
