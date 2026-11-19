@@ -14,7 +14,6 @@ RUN python -m pip install --no-cache-dir --upgrade pip \
 COPY app ./app
 COPY knowledge_base ./knowledge_base
 COPY opsresolve_ai_app.py .
-COPY .env.example .
 
 RUN mkdir -p /app/data
 
