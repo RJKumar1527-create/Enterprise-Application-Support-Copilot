@@ -35,3 +35,8 @@ data/evaluation/*.json
 .idea/
 Thumbs.db
 .DS_Store
+
+# Python bytecode and local secrets
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
