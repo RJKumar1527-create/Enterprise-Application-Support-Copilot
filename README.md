@@ -170,6 +170,60 @@ Grounded Root-Cause Response
                               |
                               v
 Human-Readable Resolution or Incident Escalation
+System Architecture
+flowchart LR
+    U[Operations User] --> UI[OpsResolve AI Web Application]
+
+    UI --> G[Input Guardrails]
+    G --> I[Intent Classification]
+
+    I --> DB[Read-Only IMS DPT1 Context]
+    I --> R[Hybrid Knowledge Retrieval]
+
+    DB --> V[Evidence Validation]
+    R --> V
+
+    V --> L[Grounded Root-Cause Generation]
+    L --> S[Self-Service Resolution]
+
+    S -->|Resolved| M[Validated Resolution Memory]
+    S -->|Investigation Required| INC[Incident Management]
+
+    INC --> W[Resolution Workspace]
+    W --> M
+AI Processing Pipeline
+flowchart TD
+    Q[Operational Question] --> MASK[Identifier and Secret Masking]
+    MASK --> CLASSIFY[Intent Classification]
+
+    CLASSIFY --> SEM[Gemini Semantic Retrieval]
+    CLASSIFY --> LEX[TF-IDF Lexical Retrieval]
+
+    SEM --> RRF[Reciprocal Rank Fusion]
+    LEX --> RRF
+
+    RRF --> RANK[Intent-Aware Ranking]
+    RANK --> DEDUP[Parent-Document Deduplication]
+    DEDUP --> VALIDATE[Evidence Sufficiency Validation]
+
+    VALIDATE --> GEN[Groq or OpenRouter]
+    GEN --> FALLBACK[Deterministic Evidence Fallback]
+    FALLBACK --> RESPONSE[Root Cause and Resolution Steps]
+Incident Resolution Flow
+flowchart TD
+    A[User Submits Operational Concern] --> B[OpsResolve AI Response]
+    B --> C{Issue Resolved?}
+
+    C -->|Yes| D[Record Self-Service Resolution]
+    C -->|No| E[Prefill Incident]
+
+    E --> F[User Adds Impact and Priority]
+    F --> G[Raise Incident]
+    G --> H[Resolution Workspace]
+
+    H --> I[Confirm Root Cause]
+    I --> J[Record Resolution]
+    J --> K[Store Validated Case Memory]
 Retrieval Components
 Gemini embeddings for semantic retrieval
 TF-IDF lexical retrieval for exact operational terminology
